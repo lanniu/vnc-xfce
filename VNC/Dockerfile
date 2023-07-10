@@ -50,11 +50,12 @@ RUN apt-get update && \
 RUN apt-get install -y tigervnc-standalone-server && \
     apt-get clean -y && \
     printf '\n# iasp-vnc-container:\n$localhost = "no";\n1;\n' >>/etc/tigervnc/vncserver-config-defaults
-    RUN mkdir -p $NO_VNC_HOME/utils/websockify 
 
-COPY noVNC-1.3.0.tar.gz $NO_VNC_HOME
+RUN mkdir -p $NO_VNC_HOME/utils/websockify 
 
-COPY websockify-0.10.0.tar.gz $NO_VNC_HOME/utils/websockify
+COPY content/noVNC-1.3.0.tar.gz $NO_VNC_HOME
+
+COPY content/websockify-0.10.0.tar.gz $NO_VNC_HOME/utils/websockify
 
 RUN tar xf $NO_VNC_HOME/noVNC-1.3.0.tar.gz --strip-components=1 -C $NO_VNC_HOME && \
     tar xf $NO_VNC_HOME/utils/websockify/websockify-0.10.0.tar.gz --strip-components=1 -C $NO_VNC_HOME/utils/websockify && \
@@ -69,9 +70,9 @@ RUN apt-get update && \
     sed -i "35i PermitRootLogin yes" /etc/ssh/sshd_config
 
 ### Configure startup
-ADD ./xfce/ $HOME/
-ADD ./set_user_permission.sh $HOME
-ADD ./scripts $STARTUPDIR
+ADD content/xfce/ $HOME/
+ADD content/set_user_permission.sh $HOME
+ADD content/scripts $STARTUPDIR
 RUN $HOME/set_user_permission.sh $STARTUPDIR $HOME
 
 RUN echo 'root:SYhr_5000' | chpasswd
