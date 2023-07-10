@@ -22,7 +22,7 @@ ENV HOME=/root \
     DEBIAN_FRONTEND=noninteractive \
     VNC_COL_DEPTH=24 \
     VNC_RESOLUTION=1920x1080 \
-    VNC_PW=SYhr_5000 \
+    VNC_PW=111111 \
     VNC_VIEW_ONLY=false
 
 WORKDIR $HOME
@@ -75,7 +75,7 @@ ADD content/set_user_permission.sh $HOME
 ADD content/scripts $STARTUPDIR
 RUN $HOME/set_user_permission.sh $STARTUPDIR $HOME
 
-RUN echo 'root:SYhr_5000' | chpasswd
+RUN echo 'root:111111' | chpasswd
 
 ENTRYPOINT ["/dockerstartup/vnc_startup.sh"]
 CMD ["--wait"]
